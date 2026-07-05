@@ -1,6 +1,9 @@
 using cStudy.Data;
 using cStudy.Dao;
-using cStudy.Services;
+using cStudy.Services.Create;
+using cStudy.Services.Delete;
+using cStudy.Services.Get;
+using cStudy.Services.Update;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +12,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IPostDao, PostDao>();
-builder.Services.AddScoped<IPostService, PostServiceImpl>();
+builder.Services.AddScoped<ICreatePostService, CreatePostServiceImpl>();
+builder.Services.AddScoped<IGetPostService, GetPostServiceImpl>();
+builder.Services.AddScoped<IUpdatePostService, UpdatePostServiceImpl>();
+builder.Services.AddScoped<IDeletePostService, DeletePostServiceImpl>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 

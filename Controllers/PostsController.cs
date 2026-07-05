@@ -1,25 +1,32 @@
 using cStudy.Dtos.Requests;
 using cStudy.Dtos.Responses;
-using cStudy.Services;
+using cStudy.Services.Create;
+using cStudy.Services.Delete;
+using cStudy.Services.Get;
+using cStudy.Services.Update;
 using Microsoft.AspNetCore.Mvc;
 
 namespace cStudy.Controllers;
 
 [ApiController]
 [Route("api/posts")]
-public sealed class PostsController(IPostService postService) : ControllerBase
+public sealed class PostsController(
+    ICreatePostService createPostService,
+    IGetPostService getPostService,
+    IUpdatePostService updatePostService,
+    IDeletePostService deletePostService) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<IReadOnlyList<PostResponse>>> GetPosts()
     {
-        var posts = await postService.GetPostsAsync();
+        var posts = await getPostService.GetPostsAsync();
         return Ok(posts);
     }
 
     [HttpGet("{id:int}")]
     public async Task<ActionResult<PostResponse>> GetPost(int id)
     {
-        var post = await postService.GetPostAsync(id);
+        var post = await getPostService.GetPostAsync(id);
         if (post is null)
         {
             return NotFound(new { message = "Post not found." });
@@ -36,7 +43,7 @@ public sealed class PostsController(IPostService postService) : ControllerBase
             return BadRequest(new { message = "Title, content, and author are required." });
         }
 
-        var post = await postService.CreatePostAsync(request);
+        var post = await createPostService.CreatePostAsync(request);
         return CreatedAtAction(nameof(GetPost), new { id = post.Id }, post);
     }
 
@@ -48,7 +55,7 @@ public sealed class PostsController(IPostService postService) : ControllerBase
             return BadRequest(new { message = "Title, content, and author are required." });
         }
 
-        var post = await postService.UpdatePostAsync(id, request);
+        var post = await updatePostService.UpdatePostAsync(id, request);
         if (post is null)
         {
             return NotFound(new { message = "Post not found." });
@@ -60,7 +67,7 @@ public sealed class PostsController(IPostService postService) : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeletePost(int id)
     {
-        var deleted = await postService.DeletePostAsync(id);
+        var deleted = await deletePostService.DeletePostAsync(id);
         if (!deleted)
         {
             return NotFound(new { message = "Post not found." });
