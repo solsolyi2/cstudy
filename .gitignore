@@ -4,6 +4,7 @@ obj/
 .vscode/*
 !.vscode/tasks.json
 !.vscode/launch.json
+!.vscode/settings.json
 
 # OS files
 .DS_Store
