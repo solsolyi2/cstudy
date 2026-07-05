@@ -1,0 +1,15 @@
+bin/
+obj/
+.vs/
+.vscode/
+
+# OS files
+.DS_Store
+
+# Local environment files
+.env
+*.user
+*.suo
+
+# Docker/IDE generated logs
+*.log

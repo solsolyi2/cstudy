@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:16
+    container_name: cstudy-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: cstudy
+      POSTGRES_USER: cstudy
+      POSTGRES_PASSWORD: cstudy1234
+    ports:
+      - "5433:5432"
+    volumes:
+      - cstudy-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cstudy -d cstudy"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cstudy-api
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: Host=db;Port=5432;Database=cstudy;Username=cstudy;Password=cstudy1234
+    ports:
+      - "8080:8080"
+
+volumes:
+  cstudy-postgres-data:
