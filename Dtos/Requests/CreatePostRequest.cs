@@ -1,4 +1,4 @@
-namespace cStudy.Dtos;
+namespace cStudy.Dtos.Requests;
 
 public sealed record CreatePostRequest(
     string Title,

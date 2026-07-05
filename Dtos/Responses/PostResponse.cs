@@ -1,4 +1,4 @@
-namespace cStudy.Dtos;
+namespace cStudy.Dtos.Responses;
 
 public sealed record PostResponse(
     int Id,

@@ -1,6 +1,23 @@
 # cStudy
 
-C# ASP.NET Core Minimal API와 PostgreSQL Docker DB로 만든 게시판 CRUD 예제입니다.
+C# ASP.NET Core Controller-Service 구조와 PostgreSQL Docker DB로 만든 게시판 CRUD 예제입니다.
+
+## 구조
+
+```text
+Controllers/PostsController.cs   HTTP 요청/응답 처리
+Services/IPostService.cs         게시글 서비스 인터페이스
+Services/PostServiceImpl.cs      게시글 서비스 구현체
+Dao/IPostDao.cs                  게시글 DAO 인터페이스
+Dao/PostDao.cs                   EF Core 기반 DAO 구현체
+Data/AppDbContext.cs             EF Core DB Context
+Models/Post.cs                   게시글 Entity
+Dtos/Requests/                   생성/수정 Request DTO
+Dtos/Responses/                  조회/생성/수정 Response DTO
+docker-compose.yml               API + PostgreSQL 실행 구성
+```
+
+흐름은 `Controller -> Service -> DAO -> AppDbContext -> PostgreSQL` 입니다.
 
 ## 실행
 
@@ -46,6 +63,16 @@ curl -X PUT http://localhost:8080/api/posts/1 \
 ```bash
 curl -X DELETE http://localhost:8080/api/posts/1
 ```
+
+## DB
+
+DB는 프로젝트 폴더 안에 파일로 생성되는 방식이 아니라 Docker의 PostgreSQL 컨테이너로 실행됩니다.
+
+- Container: `cstudy-postgres`
+- Volume: `cstudy_cstudy-postgres-data`
+- Table: `posts`
+
+`Program.cs`에서 `db.Database.EnsureCreated()`를 실행하기 때문에 API가 처음 시작될 때 PostgreSQL 안에 `posts` 테이블이 자동 생성됩니다.
 
 ## DB 접속 정보
 
