@@ -1,0 +1,30 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "run cStudy",
+      "type": "shell",
+      "command": "/usr/local/share/dotnet/dotnet",
+      "args": [
+        "run",
+        "--project",
+        "${workspaceFolder}/cStudy.csproj"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build cStudy",
+      "type": "shell",
+      "command": "/usr/local/share/dotnet/dotnet",
+      "args": [
+        "build",
+        "${workspaceFolder}/cStudy.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}

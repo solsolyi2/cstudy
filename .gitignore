@@ -1,7 +1,9 @@
 bin/
 obj/
 .vs/
-.vscode/
+.vscode/*
+!.vscode/tasks.json
+!.vscode/launch.json
 
 # OS files
 .DS_Store
